@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Transformations</title>
+        <meta charset="UTF-8">
+        <style type="text/css">
+            canvas {
+                border: 3px solid rgb(100, 100, 100);
+            }
+        </style>
+    </head>
+
+    <body>
+        <canvas id="transformcan"></canvas>
+
+        <script type="text/javascript">
+            //Gets a handle to the element with id canvasOne.
+            var canvas = document.getElementById("transformcan");
+             //Set the canvas up for drawing in 2D.
+            var ctx = canvas.getContext('2d');
+
+            //Removes all shapes on the canvas	
+
+
+            //Adjust/Resize canvas width & height
+            function init() {
+                canvas.height = 500; //Adjust height
+                canvas.width = 1000; //Adjust width
+            }//init
+            init();
+
+            class Pacman{
+                constructor(x, y, radius){
+                    this.x = x;
+                    this.y = y;
+                    this.radius = radius;
+                }//constructor
+
+                drawPacman(){
+                    var bottomAngle = 0.3, upperAngle = 1.7;
+                   
+                    //Head
+                    ctx.beginPath();
+                    ctx.fillStyle = "rgb(255, 0, 0)";
+                    ctx.beginPath();                    
+                    ctx.arc(this.x, this.y, this.radius, bottomAngle * Math.PI, upperAngle * Math.PI, false);
+                   
+                    //Mouth
+                    ctx.lineTo(this.x,this.y)
+                    ctx.lineTo(this.x + (this.radius * Math.cos(bottomAngle * Math.PI)), this.y + (this.radius * Math.sin(bottomAngle * Math.PI)));
+                    ctx.fill();                   	
+		        	ctx.stroke();
+                    
+                }//drawPacman
+
+                clear(){
+                    ctx.save();
+                    ctx.setTransform(1, 0, 0, 1, 0, 0);
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                    ctx.restore();
+
+                }//clear
+
+            }//Pacman
+
+            var pacman = new Pacman(200, 200, 50);
+
+            //http://jsfiddle.net/qE6wm/2/
+            //https://www.google.ie/search?rlz=1C1GGRV_enIE767IE767&q=how+to+rotate+pacman+before+edges+javascript&oq=how+to+rotate+pacman+before+edges+javascript&gs_l=psy-ab.3...49180.50587.0.50723.10.10.0.0.0.0.102.645.9j1.10.0....0...1.1.64.psy-ab..0.8.496...33i160k1j33i21k1.0.kOIdu2r8h6o
+            //http://veli.ee/lab/csspacman/
+       
+
+            repeatme();//calls update function
+            function repeatme(){
+                var i = 0;
+                pacman.clear() //call clear function
+                pacman.drawPacman();
+                ctx.translate(1,0);
+                
+                i++;
+                if (i % 2 == 0){
+                   ctx.rotate(50 * Math.PI/2);
+                   //https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_canvas_rotate
+                }
+                window.requestAnimationFrame(repeatme) //repeats the function updatePizzas
+               
+            }//update
+
+
+
+           
+           
+        </script>
+    </body>
+</html>
