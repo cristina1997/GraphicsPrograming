@@ -1,1 +1,123 @@
+<!DOCTYPE html>
 
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Canvas</title>
+
+    <style type="text/css">
+	#canvasOne {
+		border: 3px solid black;
+	}
+
+	p {
+		color: rgba(0, 0, 255, 0.6);
+	}
+    </style>
+
+  </head>
+
+  <body>
+
+    <canvas id="canvasOne" height="700" width="800"></canvas>
+
+    <script type="text/javascript">	
+	//House
+		// Gets a handle to the element with id canvasOne.
+		var canvas = document.getElementById("canvasOne");
+		// Set the canvas up for drawing in 2D.
+		var ctx = canvas.getContext("2d");
+		// Set the fill colour to bright red.
+		ctx.fillStyle = "rgb(100, 100, 100)";
+		// Create a filled rectangle at co-ordinates (10,10)
+		// with height and width set to 100.
+		ctx.fillRect(300, 300, 200, 100);
+		
+	//Door
+		ctx.fillStyle = "rgba(230, 200, 255, .93)";
+		ctx.fillRect(390, 350, 25, 50);
+		
+	//Roof
+		ctx.fillStyle = "rgba(190, 40, 40, .8)";
+		ctx.beginPath();
+		ctx.arc(400,300,100,0,1*Math.PI,1);
+		ctx.fill();
+		
+	//Sun		
+		ctx.fillStyle = "rgba(255, 200, 0, 1)"; 
+		ctx.beginPath();
+		ctx.arc(770, 50, 100, 0,1.5*Math.PI);
+		ctx.fill();
+		
+	//Grass
+		ctx.fillStyle = "rgba(200, 230, 15, .9)";
+		ctx.fillRect(0, 400, 800, 500);	
+
+
+		ctx.fillStyle = "rgb(100, 100, 100)";
+		ctx.fillRect(100, 300, 100, 100);
+
+		ctx.fillStyle = "rgba(255, 0, 0, 1)";
+		ctx.beginPath();
+		ctx.arc(150,350,50,0,2*Math.PI,1);
+		ctx.fill();
+		
+		
+	//Pacman	
+	//https://www.w3schools.com/jquery/tryit.asp?filename=tryjquery_animation1
+	//https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_win_settimeout			
+	
+	//Head
+		ctx.beginPath();
+		ctx.fillStyle = "rgba(255,255, 90, .9)";
+		ctx.beginPath();
+		ctx.arc(400,550,150, 1.8 * Math.PI, 1.2 * Math.PI, false);
+	
+	//Mouth
+		ctx.lineTo(400,550);		
+		ctx.lineTo(400+(150*Math.cos(1.8 * Math.PI)), 550+(150*Math.sin( 1.8 * Math.PI)));					
+		ctx.fill();		
+		ctx.stroke();
+	
+	//Eye
+		ctx.beginPath();
+		ctx.arc(350,550,25, 2 * Math.PI, false);
+		ctx.fillStyle = "rgba(255, 0, 50, 1)";
+		ctx.stroke();		
+		ctx.fill();
+	
+	function myFunction(){
+		
+		//Head
+			ctx.beginPath();
+			ctx.fillStyle = "rgba(255,255, 90, 1)";
+			ctx.beginPath();
+			ctx.arc(400,290,150, 1.8 * Math.PI, 1.2 * Math.PI, false);
+		
+		//Mouth
+			ctx.lineTo(400,290);		
+			ctx.lineTo(400+(150*Math.cos(1.8 * Math.PI)), 290+(150*Math.sin( 1.8 * Math.PI)));					
+			ctx.fill();		
+			ctx.stroke();
+		
+		//Eye
+			ctx.beginPath();
+			ctx.arc(350,290,25, 2 * Math.PI, false);
+			ctx.fillStyle = "rgba(255, 0, 50, 1)";
+			ctx.stroke();		
+			ctx.fill();	
+	
+	//Draw Grass over original Pacman
+		ctx.fillStyle = "rgba(200, 230, 15, 1)";
+		ctx.fillRect(0, 450, 800, 400);		
+	}
+	
+	setTimeout(myFunction, 3000);
+		
+		
+    </script>
+
+  </body>
+
+</html>
