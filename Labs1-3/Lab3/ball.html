@@ -1,0 +1,113 @@
+
+<!DOCTYPE html>
+
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Canvas</title>
+
+    <style type="text/css">
+      body {
+          background-color: white;         
+      }
+
+      canvas {
+         border: 3px solid rgb(100, 100, 100);
+      }
+    </style>
+
+  </head>
+
+  <body>
+
+    <canvas id="canvas-for-ball" height="300" width="800" ></canvas>
+
+    <script type="text/javascript">
+	//https://www.w3schools.com/graphics/game_bouncing.asp
+	//https://www.w3schools.com/graphics/game_rotation.asp
+	//https://www.w3schools.com/graphics/game_movement.asp
+	
+      // Gets a handle to the element with id canvasOne.
+      var canvas = document.getElementById("canvas-for-ball");
+      // Get a 2D context for the canvas.
+      var ctx = canvas.getContext("2d");
+      
+      //Variables
+      var y, x, r, vy, vx, gravity, friction, rotateVal;
+      
+      //Initialize variables
+      x = y = 100;
+      r = 25;
+      vy = vx = 1;
+      gravity = 0.2;
+      friction = 0.90;
+
+      //Clears prev ball to give the illusion that the ball is moving
+      function clear(){
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      function rotate(){
+        rotateVal += 0.02;	
+      }//rotate
+
+      //Draw the ball (stroked, not filled).
+      function draw(){
+        ctx.fillStyle = "rgba(225, 100, 0, 1)"; //give color to circle
+        ctx.beginPath(); //begin drawing the circle
+        ctx.arc(x, y, r, 0, 2 * Math.PI, false); //draw circle
+        			
+        ctx.stroke(); //outline circle        
+        
+        ctx.fill(); //fill the circle with the colour
+
+      }//draw
+
+     
+      function move(){
+        bounce();
+        y += vy; //Update the y location using speed/valocity  
+        x += vx; //Update the y location using speed/valocity  
+      }//move
+
+      function bounce (){                
+        //Stop ball if it hits bottom of the canvas
+        /*if( y >= canvas.heigh-(r*2)) {
+          vy = 0; //set valocity to 0
+        }//if*/
+
+        //Change direction of ball if it hits bottom and top of the canvas
+        if((y >= canvas.height - r) || (y <= 0 + r)) {
+            vy *= -1 * friction; //multiply -1 to valocity to make it bounce back and reverse
+        }//if
+        else {
+          vy += gravity;
+          //vy -= friction;
+        }//if/else..if
+
+        //Change direction of ball if it hits sides of the canvas   
+        if ((x >= canvas.width - r) || (x <= 0 + r)){
+          vx *= -1; 
+        }//if        
+      
+      }//bounce
+
+      // A function to repeat every time the animation loops.
+      function repeatme() {         
+        clear();         
+        draw()
+        move();
+       // rotate();
+          
+        window.requestAnimationFrame(repeatme); //request animation for repeatme function
+                                                    //causes the ball to move by looping through animation    
+      }//repeatme     
+      
+      // Get the animation going.
+      repeatme();
+    </script>
+
+  </body>
+
+</html>
