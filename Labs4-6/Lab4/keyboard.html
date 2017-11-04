@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<html>
+
+<script src="https://code.jquery.com/jquery-3.1.0.min.js"></script>
+  <head>
+    <meta charset="UTF-8">
+    <title>Keyboard</title>
+
+    <style type="text/css">
+	canvas {
+		border: 1px solid grey; 
+	}
+    </style>
+
+  </head>
+
+  <body>
+
+    <canvas id="canvas-for-ball" height="500" width="900"></canvas>
+
+    <script type="text/javascript">
+        //Gets a handle to the element with id canvasOne.
+        var canvas = document.getElementById("canvas-for-ball");
+        //Get a 2D context for the canvas.
+        var ctx = canvas.getContext("2d");
+        //Make the fill style red.
+        ctx.fillStyle = "rgb(255, 0, 0)";
+
+        //Add a Javascript event listener to the keypress event.
+        window.addEventListener("keypress", function(event) { 
+            // Just log the event to the console.
+            console.log(event);
+        });//addEventListener
+
+        //Removes all shapes on the canvas	
+        function clear (){
+		ctx.clearRect(0, 0, canvas.width, canvas.height) 
+        }//clear
+
+        //Ball constructor with parameters
+        function Ball(x, y, radius, vx, vy){
+            //Variables
+            var bool = false;
+            var clickNo = 0;
+            var vxTemp, vyTemp;
+
+            this.draw = function(){             
+                ctx.beginPath(); //begin drawing the circle
+                ctx.fillStyle = "orange"; //fills the circle up with color orang
+                ctx.arc(x, y, radius, 0, 2 * Math.PI, false); //draw circle							
+                ctx.fill(); //fill the circle with the colour  
+                    
+                this.pizzaSlices();  
+                ctx.stroke(); //draw a line to outline the circle
+            }//draw
+
+            this.pizzaSlices = function(){
+                for(var i=0; i<7; i++){	
+                    nextAngle = (((i + 1) * 2/7) /*+ rotateVal*/) * Math.PI; //update next angle to rotate the pizza
+
+                    ctx.moveTo(x, y); //draw from centre to circle
+                    ctx.lineTo(x + (radius * Math.cos(nextAngle)), y + (radius * Math.sin(nextAngle))); //draw the line from circle to centre							
+                        
+                }//for
+            }//pizzaSlices	
+
+            this.move = function(){
+                this.bounce();
+                x += vx; //Update the y location using speed/valocity 
+                y += vy;
+            }//move
+            
+            this.bounce  = function(){
+                //Change direction of ball if it hits the edges of the canvas   
+                if ((x >= canvas.width - radius) || (x <= 0 + radius)){
+                    vx *= -1; //multiply -1 to valocity to make it to the sides
+                }//if
+                if((y >= canvas.height - radius) || (y <= 0 + radius)) {
+                    vy *= -1; //multiply -1 to valocity to make it bounce up and down
+                }//if
+
+            }//bounce
+
+            function moveBall(e) {
+		    
+                switch (e.keyCode) {
+				
+                    //key code for space                      
+                    case 32:
+                        //console.log('space key pressed!'); 
+                        //every time bool is false the balls are moving
+                            //whenever bool is false vx and vy are assigned to a temporary variable and the valocity for both x and y is set to 0            
+                        if (bool == false){
+                            vxTemp = vx;
+                            vyTemp = vy;
+                            vx = 0;
+                            vy = 0;
+                            
+                            bool = true; //set the boolean to true
+                        
+                        } 
+                        //every time the bool is true the balls are paused
+                            //whenever the bool statement is true vx and vy are set back to their original value (stored in the temporary variables) and bool is set to false again
+                        else if (bool == true){
+                            vx = vxTemp;
+                            vy = vyTemp;
+				
+                            bool = false;
+                        }
+                        break;
+				
+                    //key code for left arrow
+                    case 37:
+                        //console.log('left arrow key pressed!');
+                        //This if statement works when x valocity is bigger than 0
+                        if (vx > 0){
+                            vx *= -1; //moves ball
+                            x -= vx; //take away the x valocity from y to move it to the left
+                        }//if
+                        break;
+                    //key code for up arrow
+                    case 38:
+                        //console.log('upper arrow key pressed!');
+                        //This if statement works when y valocity is bigger than 0
+                        if (vy > 0){
+                            vy *= -1; //moves ball
+                            y -= vy; //take away the the y valocity from y to move up                                              
+                        }                            
+                        break;
+				
+                    // key code for right arrow
+                    case 39:
+                        //console.log('right arrow key pressed!');
+                        //This if statement works when x valocity is smaller than 0
+                        if (vx < 0){
+                            vx *= -1; //moves ball
+                            x += vx; //add the x valocity to x move it to the right				
+                        }  
+                        break;
+				
+                    //key code for down arrow
+                    case 40:
+                        //console.log('bottom arrow key pressed!');
+                        //This if statement works when y valocity is smaller than 0
+                        if (vy < 0){
+                            vy *= -1; //moves ball
+                            y += vy; //add the the y valocity to y to move down
+                        }											
+                        break;
+                }//switch
+            }//moveball
+
+            function click(){					
+                x = event.clientX - ctx.canvas.offsetLeft; //x position is given by taking away the position of x in the browser from the canvas x position
+                y = event.clientY - ctx.canvas.offsetTop; //y position is given by taking away the position of y in the browser from the canvas y position			
+            }//click            
+
+            window.addEventListener('keydown',moveBall,true); //moveBall() called
+            window.addEventListener('click',click,true); //click() called
+            
+        }//Ball
+
+        var ball1 = new Ball(150, 100, 50, 5, 5); //call the ball1 constructor			
+        var ball2 = new Ball(200, 300, 60, 10, 10); //call the ball2 constructor
+        var allBalls = [ball1, ball2]; //create an array called allBalls with 2 balls/pizzas
+
+        update();
+        function update(){
+            clear(); //call clear function
+            
+            //Executes allBalls function once for each array element (ball1, ball2)
+            allBalls.forEach(function (ball){
+                ball.move(); //call move from Ball constructor
+                ball.draw(); //call draw from Ball constructor
+            });//allBalls
+            window.requestAnimationFrame(update) //repeats the function update            
+        }//update			
+    </script>
+  </body>
+</html>
