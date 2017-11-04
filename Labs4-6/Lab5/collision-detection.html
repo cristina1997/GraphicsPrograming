@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<!--/https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes-->
+<!--//https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/fillRect-->
+
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>Canvas</title>
+
+    <style type="text/css">
+        canvas {
+             border: 3px solid rgb(100, 100, 100);
+        }
+    </style>
+
+  </head>
+
+  <body>
+
+	<canvas id="canvasOne"></canvas>
+	
+    <script type="text/javascript">
+        //Gets a handle to the element with id canvasOne.
+    	var canvas = document.getElementById("canvasOne");
+	    //Set the canvas up for drawing in 2D.
+		var ctx = canvas.getContext("2d");
+
+		//Removes all shapes on the canvas	
+		function clear (){
+				ctx.clearRect(0, 0, canvas.width, canvas.height) 
+		}//clear
+
+        //Adjust/Resize canvas width & height
+        function init() {
+            canvas.height = 800; //Adjust height
+            canvas.width = 1500; //Adjust width
+
+        }//init
+        init();
+
+        
+        class Ball {
+            constructor(x, y, r, vy, vx, mass){
+                this.x = x;
+                this.y = y;
+                this.r = r;
+                this.vy = vy;
+                this.vx = vx;
+                this.mass = mass;
+            }//constructor
+                  
+            draw(){
+                //Outer Circle				
+               // this.setColor();
+                ctx.beginPath(); //begin drawing the circle
+                this.setColour();
+                ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI, false); //draw circle							
+                ctx.fill(); //fill the circle with the colour                        	
+                ctx.stroke(); //draw a line to outline the circle
+
+            }//draw
+
+            setColour(color){
+                return ctx.fillStyle = color;
+            }//setColor
+            
+        }//Ball
+
+        var ball = new Ball(450, 250, 50, 5, 5, 10); 
+        ball.setColour("blue");
+        ball.draw();
+        
+        
+	
+		
+    </script>
+
+  </body>
+
+</html>
