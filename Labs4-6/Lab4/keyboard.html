@@ -39,6 +39,16 @@
 
         //ball1 constructor with parameters
         function Ball(x, y, radius, vx, vy){
+            this.constructor = function (x, y, radius, vy, vx, rotateVal){
+                this.x = x;
+                this.y = y;
+                this.radius = radius;
+                this.vy = vy;
+                this.vx = vx;
+                this.rotateVal = rotateVal;
+                //this.mass = mass;
+            }//constructor
+
             //Variables
             var bool = false;
             var clickNo = 0;
@@ -158,7 +168,7 @@
             window.addEventListener('keydown',moveBall,true); //moveball1() called
             window.addEventListener('click',click,true); //click() called
             
-        }//Ball        
+        }//Ball
         
         var ball1 = new Ball(150, 100, 50, 5, 5); //call the ball1 constructor			
         var ball2 = new Ball(200, 300, 60, 10, 10); //call the ball2 constructor
