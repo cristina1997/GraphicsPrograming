@@ -53,7 +53,7 @@
                   
             draw(){
                 ctx.beginPath(); //begin drawing the circle
-                this.setColour();
+                this.setColour(); //set color for the balls
                 ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false); //draw circle							
                 ctx.fill(); //fill the circle with the colour       
                 this.pizzaSlices();                 	
@@ -102,8 +102,9 @@
                 this.y += this.vy; //Update the y location using speed/valocity  
                 this.x += this.vx; //Update the y location using speed/valocity  
                 
+                /*
                 this.newY = this.y;
-                this.newX = this.x;        
+                this.newX = this.x; */       
             }//move
 
             bounce (){    
@@ -129,37 +130,35 @@
             wallCollision(){
                 //Detect wall collision
                 if (this.x + this.radius == canvas.width){
-                    this.vx = -this.vx; 
+                    this.vx = -this.vx; //every time the ball touches the canvas width, the valocity changes sign
                 }//if
             }//wallCollision
 
             setColour(color){                
-                return ctx.fillStyle = color;
+                return ctx.fillStyle = color; //retrn color parameter
             }//setColor
  
         }//Ball
 
-        var ball1 = new Ball(450, 250, 50, 5, 5, 0); 
-        var ball2 = new Ball(200, 300, 25, 5, 5, 0); 
-        var allBalls = [ball1, ball2];
+        var ball1 = new Ball(450, 250, 50, 5, 5, 0); //call ball 1 constructor
+        var ball2 = new Ball(200, 300, 25, 5, 5, 0); //call ball 2 constructor
+        var allBalls = [ball1, ball2]; //create an array with 2 balls
 
         function circleCollision(){            
-            //var xCol = ball1.x - ball2.x;
-            //var yCol = ball1.y - ball2.y;
+            var xCol = ball1.x - ball2.x;
+            var yCol = ball1.y - ball2.y;
 
-            var radiusDist = ball1.radius + ball2.radius;
-            var centreDist = Math.sqrt( Math.pow((ball1.x - ball2.x), 2) + Math.pow((ball1.y - ball2.y), 2) ); 
+            var radiusDist = ball1.radius + ball2.radius; //calculate sum of radiuses
+            var centreDist = Math.sqrt( Math.pow(xCol, 2) + Math.pow(yCol, 2) ); 
 
-            if (radiusDist == centreDist){                
-                console.log("Collision detected!")
+            //Every time the distance between the radius is bigger than the distance between the 2 centres call console.log
+            if (radiusDist >= centreDist){             
+                console.log("Ccollision detected!")                
             }//if
 
         }//circleCollision
 
         function move(e) {
-            var bool = false;
-            var vxTemp1, vxTemp2
-            var vyTemp1, vyTemp2;
             switch (e.keyCode) {               
                 //key code for left arrow
                 case 37:
@@ -243,7 +242,7 @@
                 ball.resize();                
                 ball.wallCollision(); 
                 circleCollision();
-                document.onkeydown = move;
+//                document.onkeydown = move;
 
 		    }); 
 			window.requestAnimationFrame(update) //repeats the function updatePizzas
