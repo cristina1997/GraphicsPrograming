@@ -16,12 +16,11 @@
   </head>
 
   <body>
-
-    <canvas id="canvas-for-ball" height="500" width="900"></canvas>
+    <canvas id="canvas-for-ball1" height="500" width="900"></canvas>    
 
     <script type="text/javascript">
         //Gets a handle to the element with id canvasOne.
-        var canvas = document.getElementById("canvas-for-ball");
+        var canvas = document.getElementById("canvas-for-ball1");
         //Get a 2D context for the canvas.
         var ctx = canvas.getContext("2d");
         //Make the fill style red.
@@ -38,7 +37,7 @@
 		ctx.clearRect(0, 0, canvas.width, canvas.height) 
         }//clear
 
-        //Ball constructor with parameters
+        //ball1 constructor with parameters
         function Ball(x, y, radius, vx, vy){
             //Variables
             var bool = false;
@@ -57,7 +56,7 @@
 
             this.pizzaSlices = function(){
                 for(var i=0; i<7; i++){	
-                    nextAngle = (((i + 1) * 2/7) /*+ rotateVal*/) * Math.PI; //update next angle to rotate the pizza
+                    var nextAngle = (((i + 1) * 2/7) /*+ rotateVal*/) * Math.PI; //update next angle to rotate the pizza
 
                     ctx.moveTo(x, y); //draw from centre to circle
                     ctx.lineTo(x + (radius * Math.cos(nextAngle)), y + (radius * Math.sin(nextAngle))); //draw the line from circle to centre							
@@ -89,33 +88,33 @@
                     //key code for space                      
                     case 32:
                         //console.log('space key pressed!'); 
-                        //every time bool is false the balls are moving
+                        //every time bool is false the ball1s are moving
                             //whenever bool is false vx and vy are assigned to a temporary variable and the valocity for both x and y is set to 0            
                         if (bool == false){
                             vxTemp = vx;
                             vyTemp = vy;
                             vx = 0;
                             vy = 0;
-                            
+
                             bool = true; //set the boolean to true
-                        
+
                         } 
-                        //every time the bool is true the balls are paused
+                        //every time the bool is true the ball1s are paused
                             //whenever the bool statement is true vx and vy are set back to their original value (stored in the temporary variables) and bool is set to false again
                         else if (bool == true){
                             vx = vxTemp;
                             vy = vyTemp;
-				
+
                             bool = false;
                         }
                         break;
-				
+
                     //key code for left arrow
                     case 37:
                         //console.log('left arrow key pressed!');
                         //This if statement works when x valocity is bigger than 0
                         if (vx > 0){
-                            vx *= -1; //moves ball
+                            vx *= -1; //moves ball1
                             x -= vx; //take away the x valocity from y to move it to the left
                         }//if
                         break;
@@ -124,46 +123,46 @@
                         //console.log('upper arrow key pressed!');
                         //This if statement works when y valocity is bigger than 0
                         if (vy > 0){
-                            vy *= -1; //moves ball
+                            vy *= -1; //moves ball1
                             y -= vy; //take away the the y valocity from y to move up                                              
                         }                            
                         break;
-				
+
                     // key code for right arrow
                     case 39:
                         //console.log('right arrow key pressed!');
                         //This if statement works when x valocity is smaller than 0
                         if (vx < 0){
-                            vx *= -1; //moves ball
+                            vx *= -1; //moves ball1
                             x += vx; //add the x valocity to x move it to the right				
                         }  
                         break;
-				
+
                     //key code for down arrow
                     case 40:
                         //console.log('bottom arrow key pressed!');
                         //This if statement works when y valocity is smaller than 0
                         if (vy < 0){
-                            vy *= -1; //moves ball
+                            vy *= -1; //moves ball1
                             y += vy; //add the the y valocity to y to move down
                         }											
-                        break;
+                    break;
                 }//switch
             }//moveball
 
             function click(){					
                 x = event.clientX - ctx.canvas.offsetLeft; //x position is given by taking away the position of x in the browser from the canvas x position
                 y = event.clientY - ctx.canvas.offsetTop; //y position is given by taking away the position of y in the browser from the canvas y position			
-            }//click            
+            }//click          
 
-            window.addEventListener('keydown',moveBall,true); //moveBall() called
+            window.addEventListener('keydown',moveBall,true); //moveball1() called
             window.addEventListener('click',click,true); //click() called
             
-        }//Ball
-
+        }//Ball        
+        
         var ball1 = new Ball(150, 100, 50, 5, 5); //call the ball1 constructor			
         var ball2 = new Ball(200, 300, 60, 10, 10); //call the ball2 constructor
-        var allBalls = [ball1, ball2]; //create an array called allBalls with 2 balls/pizzas
+        var allBalls = [ball1, ball2]; //create an array called allBalls with 2 ball1s/pizzas
 
         update();
         function update(){
@@ -171,9 +170,10 @@
             
             //Executes allBalls function once for each array element (ball1, ball2)
             allBalls.forEach(function (ball){
-                ball.move(); //call move from Ball constructor
-                ball.draw(); //call draw from Ball constructor
+                ball.move(); //call move from ball constructor
+                ball.draw(); //call draw from ball constructor
             });//allBalls
+
             window.requestAnimationFrame(update) //repeats the function update            
         }//update			
     </script>
