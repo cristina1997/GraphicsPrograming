@@ -19,77 +19,85 @@
              //Set the canvas up for drawing in 2D.
             var ctx = canvas.getContext('2d');
 
-            //Removes all shapes on the canvas	
-
-
             //Adjust/Resize canvas width & height
             function init() {
                 canvas.height = 500; //Adjust height
-                canvas.width = 1000; //Adjust width
+                canvas.width = 800; //Adjust width     
+                
             }//init
-            init();
+            init();            
+
+            //Removes all shapes on the canvas	
+            function clear(){
+                ctx.save();
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.restore();
+            }
 
             class Pacman{
                 constructor(x, y, radius){
                     this.x = x;
                     this.y = y;
                     this.radius = radius;
-                }//constructor
-
+                }//constructor 
+                
                 drawPacman(){
+                    //Initialize bottom angle and upper angle
                     var bottomAngle = 0.3, upperAngle = 1.7;
                    
-                    //Head
-                    ctx.beginPath();
-                    ctx.fillStyle = "rgb(255, 0, 0)";
-                    ctx.beginPath();                    
-                    ctx.arc(this.x, this.y, this.radius, bottomAngle * Math.PI, upperAngle * Math.PI, false);
+                    //Head                    
+                    ctx.beginPath(); //begin drawing pacman
+                    ctx.fillStyle = "rgb(255, 0, 0)"; //give color to pacman
+                    ctx.arc(this.x, this.y, this.radius, bottomAngle * Math.PI, upperAngle * Math.PI, false); //draw pacman head from bottom angle to upper angle
                    
                     //Mouth
-                    ctx.lineTo(this.x,this.y)
-                    ctx.lineTo(this.x + (this.radius * Math.cos(bottomAngle * Math.PI)), this.y + (this.radius * Math.sin(bottomAngle * Math.PI)));
-                    ctx.fill();                   	
-		        	ctx.stroke();
+                    ctx.lineTo(this.x,this.y) //move line to circle centre
+                    ctx.lineTo(this.x + (this.radius * Math.cos(bottomAngle * Math.PI)), this.y + (this.radius * Math.sin(bottomAngle * Math.PI))); //move line to the bottom angle of the pacman
+                    ctx.fill(); //fill in color for pacman
+		        	ctx.stroke(); //draw line to outline pacman
                     
                 }//drawPacman
 
-                clear(){
-                    ctx.save();
-                    ctx.setTransform(1, 0, 0, 1, 0, 0);
-                    ctx.clearRect(0, 0, canvas.width, canvas.height);
-                    ctx.restore();
-
-                }//clear
-
             }//Pacman
 
-            var pacman = new Pacman(200, 200, 50);
+            //Initialize variables for outside functions/constructors
+            var i = 0, angle = 45;
+            var xPos = canvas.width/10, yPos = canvas.height/10, radius = 50;
 
-            //http://jsfiddle.net/qE6wm/2/
-            //https://www.google.ie/search?rlz=1C1GGRV_enIE767IE767&q=how+to+rotate+pacman+before+edges+javascript&oq=how+to+rotate+pacman+before+edges+javascript&gs_l=psy-ab.3...49180.50587.0.50723.10.10.0.0.0.0.102.645.9j1.10.0....0...1.1.64.psy-ab..0.8.496...33i160k1j33i21k1.0.kOIdu2r8h6o
-            //http://veli.ee/lab/csspacman/
-       
+            var pacman = new Pacman(xPos, yPos, radius); //gives pacman start x position, start y position and radius           
+
+            function step(){
+                i++;                              
+                if (i % 400 == 0){
+                    //Code adapted from https://www.youtube.com/watch?v=o9sgjuh-CBM&ab_channel=TheCodingTrain  
+
+                    ctx.translate(pacman.x + xPos/2, pacman.y - yPos*2); //move the pacman to the new position that it was before it rotated - my own calculation
+                    ctx.rotate((Math.PI/2) * angle); //rotate pacman by 45 
+                    
+                    //Transformation attempt with matrix
+                    /*
+                    ctx.transform(1, 0, 0, 1, pacman.x, pacman.y); //gives transform the x and y positions to be able to use them to calculate rotation
+
+                    var cos = Math.cos(angle);
+                    var sin = Math.cos(angle);
+
+                    ctx.transform(cos, sin, -sin, cos, 0, 0); //rotate pacman according to angle chosen
+                    ctx.transform(1, 0, 0, 1, -pacman.x, -pacman.y); //gives x and y positions of the pacman negative value to rotate it*/                
+                }
+            }//step            
 
             repeatme();//calls update function
-            function repeatme(){
-                var i = 0;
-                pacman.clear() //call clear function
-                pacman.drawPacman();
-                ctx.translate(1,0);
+            function repeatme(){              
+                ctx.translate(1,0);  
+                clear() //call clear function                
+                step(); //call step function
+                pacman.drawPacman(); //call drawPacman
                 
-                i++;
-                if (i % 2 == 0){
-                   ctx.rotate(50 * Math.PI/2);
-                   //https://www.w3schools.com/tags/tryit.asp?filename=tryhtml5_canvas_rotate
-                }
                 window.requestAnimationFrame(repeatme) //repeats the function updatePizzas
                
             }//update
-
-
-
-           
-           
+         
         </script>
     </body>
 </html>
