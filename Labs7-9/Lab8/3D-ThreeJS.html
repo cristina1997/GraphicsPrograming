@@ -33,8 +33,7 @@
             //sphere.position.x = -.5;
             //console.log(camera.position.x);
             //camera.position.x = 5;
-            move();
-            
+            move();           
             
 
             function move(){
@@ -53,27 +52,23 @@
                  //var dx, dy, dz;
                 // dx = dy = dz = 0.5;
                 // sphere.position.set(10, 20, -33); 
-            }
-           
- 
+            }          
  
             function rotateBy180(){               
                 return Math.PI/180;
             }//rotate
 
-          
-			var animate = function () {
-				var angle = rotateBy180();
-				sphere.rotateX(angle);
-				sphere.rotateY(angle);                
-                              
-				renderer.render(scene, camera);
 
-                requestAnimationFrame( animate );
+		var animate = function () {
+			var angle = rotateBy180();
+			sphere.rotateX(angle);
+			sphere.rotateY(angle);                
 
-			};
-            
-			animate();
+			renderer.render(scene, camera);
+			requestAnimationFrame( animate );
+
+		};
+		animate();
 
  
         </script>
