@@ -1,83 +1,76 @@
-
 <!DOCTYPE html>
 <html>
-	<!--http://34.249.149.110:5000/-->
-	<head>
-		<title>D3.js Demo</title>
-		<meta charset="UTF-8">
-		<style type="text/css"></style>
-		<script src="https://d3js.org/d3.v4.js"></script>
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-	</head>
-	
-	<body>
-		<script type="text/javascript">
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <style type="text/css">
+            body { margin: 0; }
+            canvas { width: 100; height: 100 } 
+        </style>
+    </head>
+    <body>
+        <!--Src code from https://cdnjs.com/libraries/three.js/ -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/88/three.js"></script>
 
-			$.ajax({
-				url: "http://34.249.149.110:5000/",
-				dataType: "jsonp"
-			}); // ajax
+        <script type="text/javascript">
+            var scene = new THREE.Scene();
+            var camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-			function callback(json){
-				//console.log(JSON.stringify(json.currency));
-				data = json.currency;
-				plotCurrencyData(data);
-			} // callback
+            var renderer = new THREE.WebGLRenderer();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
 
-			function plotCurrencyData(data){
-				var margin = {top: 50, right: 50, bottom: 50, left: 50},
-					width = 900 - margin.left - margin.right,
-					height = 670 - margin.top - margin.bottom;
+            var spotLight = new THREE.SpotLight(0xffffff );
+            spotLight.position.set(0, 1, 2);
+            scene.add(spotLight);
 
-				var y = d3.scaleLinear().domain(d3.extent(data, 
-					function(d) {
-						return d["GBP/EUR"]
-					}
-				)).range([height, 0]);
+            var geometry = new THREE.SphereGeometry(1, 50, 50 );
+            //var material = new THREE.MeshBasicMaterial( { color: "red", wireframe: true });
+            var material = new THREE.MeshLambertMaterial( { color: "red", wireframe: false });
+            var sphere = new THREE.Mesh( geometry, material );
+            scene.add( sphere );
+            camera.position.z = 5;
+            //sphere.position.x = -.5;
+            //console.log(camera.position.x);
+            //camera.position.x = 5;
+            move();           
+            
 
-				var parseDate = d3.timeParse("%d/%m/%Y");
-				var x = d3.scaleTime().domain(d3.extent(data, 
-					function(d) {
-						return parseDate(d["Date"]);
-					}
-				)).range([0, width]);
+            function move(){
+                var vels, tempPos;
 
-				var xAxis = d3.axisBottom(x).ticks(3);
-				var yAxis = d3.axisLeft(y).ticks(3);
+                vels = {dx: .5,
+                        dy: .5,
+                        dz: .5
+                };
 
-				var valueline = d3.line()
-					.x( function (d)
-					{
-						return x(parseDate(d["Date"]));
-					})
-					.y( function(d)
-					{
-						return y(d["GBP/EUR"]);
-				});
-
-				var svg = d3.select("body")
-				.append("svg")
-					.attr("width", width + margin.left + margin.right)
-					.attr("height", height + margin.top + margin.bottom)
-				.append("g")
-					.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-				svg.append('g')
-					.attr('class', 'x axis')
-					.call(xAxis);
-
-				svg.append('g')
-					.attr('class', 'y axis')
-					.call(yAxis);
-
-				svg.append("path")
-					.attr("d", valueline(data));
+                tempPos = {x,
+                        y,
+                        z
+                };
+              
+                 //var dx, dy, dz;
+                // dx = dy = dz = 0.5;
+                // sphere.position.set(10, 20, -33); 
+            }          
+ 
+            function rotateBy180(){               
+                return Math.PI/180;
+            }//rotate
 
 
-			} // plotCurrencyData
+		var animate = function () {
+			var angle = rotateBy180();
+			sphere.rotateX(angle);
+			sphere.rotateY(angle);                
 
+			renderer.render(scene, camera);
+			requestAnimationFrame( animate );
 
-		</script>
-	</body>
-</html
+		};
+		animate();
 
+ 
+        </script>
+    </body>
+</html>
