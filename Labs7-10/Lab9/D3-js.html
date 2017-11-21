@@ -1,0 +1,83 @@
+
+<!DOCTYPE html>
+<html>
+	<!--http://34.249.149.110:5000/-->
+	<head>
+		<title>D3.js Demo</title>
+		<meta charset="UTF-8">
+		<style type="text/css"></style>
+		<script src="https://d3js.org/d3.v4.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	</head>
+	
+	<body>
+		<script type="text/javascript">
+
+			$.ajax({
+				url: "http://34.249.149.110:5000/",
+				dataType: "jsonp"
+			}); // ajax
+
+			function callback(json){
+				//console.log(JSON.stringify(json.currency));
+				data = json.currency;
+				plotCurrencyData(data);
+			} // callback
+
+			function plotCurrencyData(data){
+				var margin = {top: 50, right: 50, bottom: 50, left: 50},
+					width = 900 - margin.left - margin.right,
+					height = 670 - margin.top - margin.bottom;
+
+				var y = d3.scaleLinear().domain(d3.extent(data, 
+					function(d) {
+						return d["GBP/EUR"]
+					}
+				)).range([height, 0]);
+
+				var parseDate = d3.timeParse("%d/%m/%Y");
+				var x = d3.scaleTime().domain(d3.extent(data, 
+					function(d) {
+						return parseDate(d["Date"]);
+					}
+				)).range([0, width]);
+
+				var xAxis = d3.axisBottom(x).ticks(3);
+				var yAxis = d3.axisLeft(y).ticks(3);
+
+				var valueline = d3.line()
+					.x( function (d)
+					{
+						return x(parseDate(d["Date"]));
+					})
+					.y( function(d)
+					{
+						return y(d["GBP/EUR"]);
+				});
+
+				var svg = d3.select("body")
+				.append("svg")
+					.attr("width", width + margin.left + margin.right)
+					.attr("height", height + margin.top + margin.bottom)
+				.append("g")
+					.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+				svg.append('g')
+					.attr('class', 'x axis')
+					.call(xAxis);
+
+				svg.append('g')
+					.attr('class', 'y axis')
+					.call(yAxis);
+
+				svg.append("path")
+					.attr("d", valueline(data));
+
+
+			} // plotCurrencyData
+
+
+		</script>
+	</body>
+</html
+
