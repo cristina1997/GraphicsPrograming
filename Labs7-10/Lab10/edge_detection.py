@@ -15,11 +15,19 @@ cat = cv2.imread('funny_kitty.jpg')
 
 # To convert to gray-scale image and store it to another variable named "gray_image" 
 # use the function cv2.cvtColor() with parameters as  the "image" variable and  "cv2.COLOR_BGR2GRAY" :
+## GMIT
 gray_image = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+## Cat
 gray_cat = cv2.cvtColor(cat, cv2.COLOR_BGR2GRAY)
+
+
 # fix subplot colour issues, 
 # plot "cv2.cvtColor(img, cv2.COLOR_BGR2RGB)"" rather than "img" when dealing with colour images. 
+## GMIT
 orig_image = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) 
+
+## Cat
 orig_cat = cv2.cvtColor(cat, cv2.COLOR_BGR2RGB) 
 
 # Now, to write/save the converted gray-scale image to the hard disk, 
@@ -32,8 +40,10 @@ cv2.imwrite('kitty_gray.png',gray_cat)
 # To display the original and the gray-scale,
 # we use function "cv2.imshow()" with parameters 
 # as the "window title" and the "image variable" :	
+## GMIT
 cv2.imshow('color_image',orig_image)             
 cv2.imshow('gray_image',gray_image) 
+## Cat
 cv2.imshow('color_cat',orig_cat)             
 cv2.imshow('gray_cat',gray_cat) 
 
@@ -49,10 +59,13 @@ ncols = 2
 # This method can plot a number of images in a figure as follows. 
 # orig_image should correspond to the original image loaded in 
 # gray_image should correspond to the grayscale version
+## GMIT
 plt.subplot(nrows, ncols,1),plt.imshow(orig_image, cmap = 'gray')
 plt.title('Original'), plt.xticks([]), plt.yticks([])
 plt.subplot(nrows, ncols,2),plt.imshow(gray_image, cmap = 'gray')
 plt.title('GrayScale'), plt.xticks([]), plt.yticks([])
+
+## Cat
 plt.subplot(nrows, ncols,3),plt.imshow(orig_cat, cmap = 'gray')
 plt.title('Original Cat'), plt.xticks([]), plt.yticks([])
 plt.subplot(nrows, ncols,4),plt.imshow(gray_cat, cmap = 'gray')
@@ -65,13 +78,18 @@ plt.show()
 # OpenCV provides a function, cv2.GaussianBlur(), to convolve a kernel with an image.
 # Create a new variable to use for the blurring of the gray image
 # imgOut = cv2.GaussianBlur(imgIn,(KernelSizeWidth, KernelSizeHeight),0)
-
+## GMIT
 imgIn = gray_image
+
+## Cat
 imgInCat = gray_cat
 
 # Use these variables for the blurring 
+## GMIT
 imgOut3x3 = cv2.GaussianBlur(imgIn,(3, 3),0)
 imgOut13x13 = cv2.GaussianBlur(imgIn,(13, 13),0)
+
+## Cat
 imgCatOut3x3 = cv2.GaussianBlur(imgInCat,(3, 3),0)
 imgCatOut13x13 = cv2.GaussianBlur(imgInCat,(13, 13),0)
 
@@ -83,6 +101,7 @@ imgCatOut13x13 = cv2.GaussianBlur(imgInCat,(13, 13),0)
 nrows = 2
 ncols = 4
 
+## GMIT
 # Original
 plt.subplot(nrows, ncols,1),plt.imshow(orig_image, cmap = 'gray')
 plt.title('Original'), plt.xticks([]), plt.yticks([])
@@ -95,6 +114,8 @@ plt.title('3x3 Blur'), plt.xticks([]), plt.yticks([])
 # 13x13 Blur
 plt.subplot(nrows, ncols,4),plt.imshow(imgOut13x13, cmap = 'gray')
 plt.title('13x13 Blur'), plt.xticks([]), plt.yticks([])
+
+## Cat
 # Original
 plt.subplot(nrows, ncols,5),plt.imshow(orig_cat, cmap = 'gray')
 plt.title('Original Cat'), plt.xticks([]), plt.yticks([])
@@ -112,21 +133,32 @@ plt.show()
 # Next, we’ll perform edge detection using the Sobel operator. 
 # The Sobel operator detects horizontal and vertical edges 
 # by multiplying each pixel by the two kernels Gx and Gy
+## GMIT
 sobelHorizontal = cv2.Sobel(imgIn,cv2.CV_64F,1,0,ksize=5) # x dir
 sobelVertical = cv2.Sobel(imgIn,cv2.CV_64F,0,1,ksize=5) # y dir
 sobelSum = sobelHorizontal + sobelVertical
+
+## Cat
+sobelHorizontalCat = cv2.Sobel(imgInCat,cv2.CV_64F,1,0,ksize=5) # x dir
+sobelVerticalCat = cv2.Sobel(imgInCat,cv2.CV_64F,0,1,ksize=5) # y dir
+sobelSumCat = sobelHorizontalCat + sobelVerticalCat
 
 # Perform Canny edge detection and plot the result. 
 # Set the cannyThreshold to 100 initially. 
 # Set cannyParam2 to be 200 initially.
 # cannyParam2 should be roughly 2 to 3 times the magnitude of cannyThreshold
 # canny = cv2.Canny(imgIn,cannyThreshold,cannyParam2)
+## GMIT
 cannyEdge = cv2.Canny(imgIn,100,200)
+
+## Cat
+cannyEdgeCat = cv2.Canny(imgInCat,100,200)
 
 # Initialize number of rows and number of columns
 nrows = 2
-ncols = 3
+ncols = 6
 
+## GMIT
 # Original
 plt.subplot(nrows, ncols,1),plt.imshow(orig_image, cmap = 'gray')
 plt.title('Original'), plt.xticks([]), plt.yticks([])
@@ -144,5 +176,25 @@ plt.subplot(nrows, ncols,5),plt.imshow(sobelSum, cmap = 'gray')
 plt.title('Sobel Sum'), plt.xticks([]), plt.yticks([])
 # Canny Edge Image
 plt.subplot(nrows, ncols,6),plt.imshow(cannyEdge, cmap = 'gray')
+plt.title('Canny Edge Image'), plt.xticks([]), plt.yticks([])
+
+## Cat
+# Original
+plt.subplot(nrows, ncols,7),plt.imshow(orig_cat, cmap = 'gray')
+plt.title('Original'), plt.xticks([]), plt.yticks([])
+# GrayScale
+plt.subplot(nrows, ncols,8),plt.imshow(gray_cat, cmap = 'gray')
+plt.title('GrayScale'), plt.xticks([]), plt.yticks([])
+# Sobel X
+plt.subplot(nrows, ncols,9),plt.imshow(sobelHorizontalCat, cmap = 'gray')
+plt.title('Sobel X'), plt.xticks([]), plt.yticks([])
+# Sobel Y
+plt.subplot(nrows, ncols,10),plt.imshow(sobelVerticalCat, cmap = 'gray')
+plt.title('Sobel Y'), plt.xticks([]), plt.yticks([])
+# Sobel Sum
+plt.subplot(nrows, ncols,11),plt.imshow(sobelSumCat, cmap = 'gray')
+plt.title('Sobel Sum'), plt.xticks([]), plt.yticks([])
+# Canny Edge Image
+plt.subplot(nrows, ncols,12),plt.imshow(cannyEdgeCat, cmap = 'gray')
 plt.title('Canny Edge Image'), plt.xticks([]), plt.yticks([])
 plt.show()

@@ -8,17 +8,13 @@
             svg {
                 border: 3px solid rgb(100, 100, 100);
             }
-            
-            circle {
-                fill: red;
-            }
         </style>
     </head>
     <body>
         
 
-        <svg height="400" width="400">
-             <circle id="circle" cx="100" cy="100" r="20" stroke="black" stroke-width="4" fill-opacity="1"/>
+        <svg id="svg" height="400" width="400">
+             <circle id="circle" cx="100" cy="100" r="20" stroke="black" stroke-width="4" fill-opacity="1" fill="red"/>
              <rect id="rect" x="10" y="10" width="100" height="200" fill="blue" fill-opacity="0.3" stroke="black"/> 
            
             <path id="pacman" d="M230 230
@@ -27,35 +23,34 @@
                     transform="translate(30) rotate(45 50 50)"/>
         </svg>
 
-            <input type="button" value="Start Animation" onclick="startAnimation();">
-            <input type="button" value="Stop Animation" onclick="stopAnimation();">
+        <br>
+        <input type="button" value="Move Circle" onclick="moveCircle();">
+        <input type="button" value="Change Color" onclick="changeColor();">
 
         <script type="text/javascript">
-            var time = null;
+            
 
-            function startAnimation() {
-                if(time == null) {
-                    time = setInterval(animate, 20);
-                }
+            function moveCircle() {
+                var time = setTimeout(move, 1000);
             }//startAnimation
 
             
-            function stopAnimation() {
-                if(time != null){
-                    clearInterval(time);
-                    time = null;
-                }
+            function changeColor() {
+                var color = setTimeout(colour, 2000);
             }//stopAnimation
 
-            function animate() {
-                var circle = document.getElementById("circle");
-                var x = circle.getAttribute("cx");
-                var newX = 2 + parseInt(x);
-                if(newX > 500) {
-                    newX = 20;
-                }
-                circle.setAttribute("cx", newX);
+            function move() {
+                var width = svg.getAttribute('width');
+                var height = svg.getAttribute('height');;
+                
+                circle.setAttribute("cx", (width/2));
+                circle.setAttribute("cy", (height/2));
             }//stopAnimation
+
+            function colour(){
+                var color = circle.getAttribute('fill');
+                circle.setAttribute("fill", "green");
+            }
 
            /* function myFunction() {
                 setTimeout(function(){);
