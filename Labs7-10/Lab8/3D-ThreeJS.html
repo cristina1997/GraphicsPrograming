@@ -25,52 +25,51 @@
             scene.add(spotLight);
 
             var geometry = new THREE.SphereGeometry(1, 50, 50 );
-            //var material = new THREE.MeshBasicMaterial( { color: "red", wireframe: true });
-            var material = new THREE.MeshLambertMaterial( { color: "red", wireframe: false });
+            var material = new THREE.MeshBasicMaterial( { color: "red", wireframe: true });
+            // var material = new THREE.MeshLambertMaterial( { color: "red", wireframe: false });
             var sphere = new THREE.Mesh( geometry, material );
             scene.add( sphere );
-            camera.position.z = 5;
-            //sphere.position.x = -.5;
-            //console.log(camera.position.x);
-            //camera.position.x = 5;
-            move();           
+            camera.position.z = 5;      
+
+            right(null)            
+            function right(time) {
+                if (time == null){                    
+                    time = setTimeout(moveRight, 1000);
+                } 
+            }//startAnimation
+
+            //left(!null)
+            function left(time){              
+                if (time != null){
+                    time = setTimeout(moveLeft, 1000);
+                }
+            }
+
+            function moveRight(){
+                //geometry.translate(dx, dy, dz); // three.js r.72   
+                geometry.translate(.5, .5, .5); // three.js r.72                  
+
+            }              
             
+            function moveLeft(){
+                // geometry.translate(dx, dy, dz); // three.js r.72  
+                geometry.translate(-.5, -.5, -.5); // three.js r.72   
+            }  
 
-            function move(){
-                var vels, tempPos;
-
-                vels = {dx: .5,
-                        dy: .5,
-                        dz: .5
-                };
-
-                tempPos = {x,
-                        y,
-                        z
-                };
-              
-                 //var dx, dy, dz;
-                // dx = dy = dz = 0.5;
-                // sphere.position.set(10, 20, -33); 
-            }          
- 
             function rotateBy180(){               
                 return Math.PI/180;
             }//rotate
 
+            var animate = function () {
+                var angle = rotateBy180();
+                sphere.rotateX(angle);
+                sphere.rotateY(angle);   
+                sphere.rotateZ(angle);             
 
-		var animate = function () {
-			var angle = rotateBy180();
-			sphere.rotateX(angle);
-			sphere.rotateY(angle);                
-
-			renderer.render(scene, camera);
-			requestAnimationFrame( animate );
-
-		};
-		animate();
-
- 
+                renderer.render(scene, camera);
+                requestAnimationFrame( animate );
+            };
+            animate();
         </script>
     </body>
 </html>
