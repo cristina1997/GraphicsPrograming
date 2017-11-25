@@ -25,8 +25,8 @@
             scene.add(spotLight);
 
             var geometry = new THREE.SphereGeometry(1, 50, 50 );
-            var material = new THREE.MeshBasicMaterial( { color: "red", wireframe: true });
-            // var material = new THREE.MeshLambertMaterial( { color: "red", wireframe: false });
+            // var material = new THREE.MeshBasicMaterial( { color: "red", wireframe: true });
+            var material = new THREE.MeshLambertMaterial( { color: "red", wireframe: false });
             var sphere = new THREE.Mesh( geometry, material );
             scene.add( sphere );
             camera.position.z = 5;      
