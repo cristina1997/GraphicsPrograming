@@ -2,7 +2,7 @@
 
 # Data-Representation-and-Querying
 ## Problem Sheets
-These are my answers related to the 3rd year Software Development problem sheets for **[Data Representation and Querying](https://data-representation.github.io)**.
+These are my answers related to the 3rd year Software Development labs sheets for Graphics Programming.
 1. [Lab 1](#lab-1)
 2. [Lab 2](#lab-2)
 3. [Lab 3](#lab-3)
