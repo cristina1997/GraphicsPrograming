@@ -24,17 +24,20 @@
 				plotCurrencyData(data);
 			} // callback
 
+			// Plot Data
 			function plotCurrencyData(data){
+
 				var margin = {top: 50, right: 50, bottom: 50, left: 50},
 					width = 900 - margin.left - margin.right,
 					height = 670 - margin.top - margin.bottom;
-
+					
 				var y = d3.scaleLinear().domain(d3.extent(data, 
 					function(d) {
 						return d["GBP/EUR"]
 					}
 				)).range([height, 0]);
 
+				// Parse date
 				var parseDate = d3.timeParse("%d/%m/%Y");
 				var x = d3.scaleTime().domain(d3.extent(data, 
 					function(d) {
@@ -42,6 +45,7 @@
 					}
 				)).range([0, width]);
 
+				
 				var xAxis = d3.axisBottom(x).ticks(3);
 				var yAxis = d3.axisLeft(y).ticks(3);
 

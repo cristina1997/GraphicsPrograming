@@ -13,48 +13,52 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/88/three.js"></script>
 
         <script type="text/javascript">
+            // Scene - Creates a scene
             var scene = new THREE.Scene();
+            // PerspectiveCamera - PerspectiveCamera mimics a 3D view
             var camera = new THREE.PerspectiveCamera(80, window.innerWidth / window.innerHeight, 0.1, 1000);
 
+            // WebGLRenderer - It displays the scenes crafted scenes using WebGL
             var renderer = new THREE.WebGLRenderer();
             renderer.setSize(window.innerWidth, window.innerHeight);
             document.body.appendChild(renderer.domElement);
 
+            // SpotLight -  This light gets emitted from a single point in one direction, 
+                            // along a cone that increases in size the further from the light it gets. 
+                            // This light can cast shadows:     https://threejs.org/docs/#api/lights/shadows/SpotLightShadow.
             var spotLight = new THREE.SpotLight(0xffffff );
             spotLight.position.set(0, 1, 2);
             scene.add(spotLight);
 
+            // SphereGeometry - A class for generating sphere geometries
             var geometry = new THREE.SphereGeometry(1, 50, 50 );
-            // var material = new THREE.MeshBasicMaterial( { color: "red", wireframe: true });
-            var material = new THREE.MeshLambertMaterial( { color: "red", wireframe: false });
+            // A material for drawing geometries in a simple shaded 
+            var material = new THREE.MeshBasicMaterial( { color: "red", wireframe: true });
+            // var material = new THREE.MeshLambertMaterial( { color: "red", wireframe: false });
             var sphere = new THREE.Mesh( geometry, material );
             scene.add( sphere );
-            camera.position.z = 5;      
 
-            right(null)            
-            function right(time) {
-                if (time == null){                    
-                    time = setTimeout(moveRight, 1000);
-                } 
-            }//startAnimation
+            // DirectionalLight - A light that gets emitted in a specific direction
+            var directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+            directionalLight.position.set(0, 1, 2);
+            scene.add(directionalLight);
 
-            //left(!null)
-            function left(time){              
-                if (time != null){
-                    time = setTimeout(moveLeft, 1000);
-                }
-            }
+            camera.position.z = 5;  
+            sphere.position.z = -10;
 
-            function moveRight(){
-                //geometry.translate(dx, dy, dz); // three.js r.72   
-                geometry.translate(.5, .5, .5); // three.js r.72                  
+     
+            function move(){
+                var width = window.innerWidth; // puts scene width into a variable width
+                var dx, dy, dz;             
+                dy = dz = 0;
 
-            }              
-            
-            function moveLeft(){
-                // geometry.translate(dx, dy, dz); // three.js r.72  
-                geometry.translate(-.5, -.5, -.5); // three.js r.72   
-            }  
+                dx = -2;
+                sphere.position.x += dx; // updates x location by increasing velocity 
+                if ((sphere.position.x > width) || (sphere.position.x < 0)){
+                    geometry.translate(dx, dy, dy); // three.js r.72     
+                    dx *= -1; // makes ball bounce back       
+                }    
+            }     
 
             function rotateBy180(){               
                 return Math.PI/180;
@@ -64,10 +68,11 @@
                 var angle = rotateBy180();
                 sphere.rotateX(angle);
                 sphere.rotateY(angle);   
-                sphere.rotateZ(angle);             
+                sphere.rotateZ(angle);  
+                move();           
 
                 renderer.render(scene, camera);
-                requestAnimationFrame( animate );
+                requestAnimationFrame( animate ); // repeat loop
             };
             animate();
         </script>
