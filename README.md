@@ -1,6 +1,5 @@
 # GraphicsPrograming
 
-# Data-Representation-and-Querying
 ## Problem Sheets
 These are my answers related to the 3rd year Software Development labs sheets for Graphics Programming.
 1. [Lab 1](#lab-1)
